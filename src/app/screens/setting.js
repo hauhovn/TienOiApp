@@ -7,7 +7,7 @@ const SettingScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView>
-            <Text style={{ fontSize: 42, color: 'red' }}>Setting screen</Text>
+            <Text style={{ fontSize: 42, color: 'red' }}>Setting screen .</Text>
         </SafeAreaView>
     )
 }

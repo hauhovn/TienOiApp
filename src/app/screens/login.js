@@ -12,7 +12,7 @@ const LoginScreen = ({ navigation }) => {
             <Text style={{ fontSize: 42, color: 'red' }}>Login screen</Text>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate('DrawerScreenStack');
+                    navigation.navigate('DrawerStackScreen');
                 }}
             >
                 <Text style={{ fontSize: 42, color: 'red' }}>Next</Text>

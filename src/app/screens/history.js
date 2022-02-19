@@ -7,7 +7,7 @@ const HistoryScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView>
-            <Text style={{ fontSize: 42, color: 'red' }}>History screen</Text>
+            <Text style={{ fontSize: 42, color: 'red' }}>History screen .</Text>
         </SafeAreaView>
     )
 }
