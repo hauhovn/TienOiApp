@@ -42,27 +42,28 @@ export function DrawerContent(props) {
                     <DrawerItem
                         icon={() => {
                             return (
-                                <HomeIcon />)
+                                <HomeIcon color='#407fbc' />)
                         }}
                         label={'Trang chủ'}
                         onPress={() => props.navigation.navigate('HomeStackScreen')}
                     />
                     <DrawerItem
+                        icon={() => { return (<AddIcon color='#40bdab' />) }}
+                        label={'Thêm giao dịch'}
+                        onPress={() => props.navigation.navigate('AddStackScreen')}
+                    />
+                    <DrawerItem
                         icon={() => {
                             return (
-                                <HistoryIcon />
+                                <HistoryIcon color='#fed24b' />
                             )
                         }}
                         label={'Lịch sử'}
                         onPress={() => props.navigation.navigate('HistoryStackScreen')}
                     />
+
                     <DrawerItem
-                        icon={() => { return (<AddIcon />) }}
-                        label={'Thêm giao dịch'}
-                        onPress={() => props.navigation.navigate('AddStackScreen')}
-                    />
-                    <DrawerItem
-                        icon={() => { return (<SettingIcon />) }}
+                        icon={() => { return (<SettingIcon color='#f79459' />) }}
                         label={'Cài đặt'}
                         onPress={() => props.navigation.navigate('SettingStackScreen')}
                     />
@@ -75,7 +76,7 @@ export function DrawerContent(props) {
                 <DrawerItem
                     icon={() => { return (<LogoutIcon />) }}
                     label={'Đăng xuất'}
-                    onPress={() => props.navigation.navigate('LogoutStackScreen')}
+                    onPress={() => { props.navigation.closeDrawer(); props.navigation.navigate('LogoutStackScreen', { screen: 'LogoutScreen', params: { isLogout: true } }) }}
                 />
             </View>
         </View>

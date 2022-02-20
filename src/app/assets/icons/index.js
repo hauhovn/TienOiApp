@@ -5,8 +5,12 @@ import LogoutIcon from "./logout";
 import HistoryIcon from './history';
 import LogoIcon from "./logo";
 import MenuIcon from './menu';
+import PlusIcon from './plus';
+import MinusIcon from "./minus";
 
 export {
+    MinusIcon,
+    PlusIcon,
     HomeIcon,
     SettingIcon,
     AddIcon,

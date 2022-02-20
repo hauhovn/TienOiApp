@@ -66,8 +66,8 @@ const App = () => {
                     component={HomeStackScreen}
                     options={{
                         tabBarShowLabel: false,
-                        tabBarActiveTintColor: '#c78787',
-                        tabBarIcon: ({ focused, color }) => {
+                        tabBarActiveTintColor: '#0154a4',
+                        tabBarIcon: ({ color }) => {
                             return (<HomeIcon color={color} />)
                         }
 
@@ -78,10 +78,10 @@ const App = () => {
                     component={AddStackScreen}
                     options={{
                         tabBarShowLabel: false,
-                        tabBarActiveTintColor: '#fff',
+                        tabBarActiveTintColor: '#00a88f',
                         tabBarLabel: 'Thêm',
-                        tabBarIcon: ({ focused }) => {
-                            return (<AddIcon color={focused ? '#3cbfb1' : '#6a6a6a'} />)
+                        tabBarIcon: ({ color }) => {
+                            return (<AddIcon color={color} />)
                         }
                     }}
                 />
@@ -92,7 +92,7 @@ const App = () => {
                         tabBarShowLabel: false,
                         tabBarLabel: 'Lịch sử',
                         tabBarIcon: ({ focused }) => {
-                            return (<HistoryIcon color={focused ? '#c7c187' : '#6a6a6a'} />)
+                            return (<HistoryIcon color={focused ? '#ffc20f' : '#6a6a6a'} />)
                         }
                     }}
                 />
@@ -120,6 +120,7 @@ const App = () => {
         return (
             <LoginStack.Navigator
                 initialRouteName='LoginStackScreen'
+                screenOptions={{ headerShown: false }}
             >
                 <LoginStack.Screen name='LoginScreen' component={LoginScreen} />
             </LoginStack.Navigator>
