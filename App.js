@@ -17,7 +17,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { DrawerContent } from './src/app/components';
 
 const Tab = createBottomTabNavigator();
-
 const Stack = createStackNavigator();
 const LoginStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -28,7 +27,8 @@ import {
     HistoryStackScreen,
     HomeStackScreen,
     SettingStackScreen
-} from './src/app/navigations'
+} from './src/app/navigations';
+import { HomeIcon, AddIcon, HistoryIcon } from './src/app/assets/icons';
 
 const App = () => {
 
@@ -54,11 +54,10 @@ const App = () => {
                     headerShown: false,
                     tabBarStyle: {
                         position: 'absolute',
-                        backgroundColor: 'gray',
-                        height: 80,
-                        borderTopLeftRadius: 30,
-                        borderTopRightRadius: 30,
-                        marginHorizontal: 2
+                        height: 100,
+                        borderRadius: 30,
+                        marginHorizontal: 14,
+                        marginBottom: 20
                     },
                 }}
             >
@@ -66,21 +65,35 @@ const App = () => {
                     name="HomeStackScreen"
                     component={HomeStackScreen}
                     options={{
-                        tabBarLabel: 'Trang chủ',
+                        tabBarShowLabel: false,
+                        tabBarActiveTintColor: '#c78787',
+                        tabBarIcon: ({ focused, color }) => {
+                            return (<HomeIcon color={color} />)
+                        }
+
                     }}
                 />
                 <Tab.Screen
                     name="AddStackScreen"
                     component={AddStackScreen}
                     options={{
-                        tabBarLabel: 'Thêm giao dịch',
+                        tabBarShowLabel: false,
+                        tabBarActiveTintColor: '#fff',
+                        tabBarLabel: 'Thêm',
+                        tabBarIcon: ({ focused }) => {
+                            return (<AddIcon color={focused ? '#3cbfb1' : '#6a6a6a'} />)
+                        }
                     }}
                 />
                 <Tab.Screen
                     name="HistoryStackScreen"
                     component={HistoryStackScreen}
                     options={{
+                        tabBarShowLabel: false,
                         tabBarLabel: 'Lịch sử',
+                        tabBarIcon: ({ focused }) => {
+                            return (<HistoryIcon color={focused ? '#c7c187' : '#6a6a6a'} />)
+                        }
                     }}
                 />
             </Tab.Navigator>
