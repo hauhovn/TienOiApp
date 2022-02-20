@@ -4,6 +4,7 @@ import {
     View,
     TouchableOpacity
 } from 'react-native';
+import { FONTS } from '../assets/constants/theme';
 
 const LogoutScreen = ({ navigation, route }) => {
 
@@ -12,14 +13,22 @@ const LogoutScreen = ({ navigation, route }) => {
 
     return (
 
+
         <View style={{
-            backgroundColor: '#4287f5',
-            flex: 1,
+            backgroundColor: '#ffffff',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            flex: 1
         }}>
-            <Text style={{ fontSize: 42, textAlign: 'center', marginBottom: 20, color: '#fff' }}>Đăng Xuất</Text>
-            <Text style={{ fontSize: 18, color: '#fff' }}>Bạn có chắc muốn đăng xuất?</Text>
+            <Text style={{
+                ...FONTS.h1,
+                fontSize: 42,
+                textAlign: 'center',
+                marginBottom: 20,
+                color: '#585858',
+                padding: 40
+            }}>Bạn có chắc ?</Text>
+            <Text style={{ ...FONTS.body1, fontSize: 18, color: '#585858' }}>Bạn có chắc chắn muốn đăng xuất?</Text>
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
@@ -28,26 +37,39 @@ const LogoutScreen = ({ navigation, route }) => {
             }}>
                 <TouchableOpacity
                     style={{
-                        backgroundColor: '#f54242',
-                        paddingVertical: 26,
-                        paddingHorizontal: 24,
-                        borderRadius: 24
-                    }}
-                    onPress={() => { navigation.navigate('LoginStackScreen') }}
-                >
-                    <Text style={{ fontSize: 24, textTransform: 'uppercase', color: '#fff' }}>Đồng ý</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        backgroundColor: '#05e818',
-                        paddingVertical: 26,
-                        paddingHorizontal: 24,
-                        borderRadius: 24
+                        backgroundColor: '#efefef',
+                        paddingVertical: 8,
+                        paddingHorizontal: 32,
+                        borderRadius: 12,
+                        justifyContent: 'center'
                     }}
                     onPress={() => { navigation.navigate('TabStackScreen') }}
                 >
-                    <Text style={{ fontSize: 24, textTransform: 'uppercase', color: '#fff' }}>Trở về</Text>
+                    <Text style={{
+                        ...FONTS.h1,
+                        fontSize: 22,
+                        textTransform: 'uppercase',
+                        color: '#545454'
+                    }}>Trở về</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: '#7dd1f9',
+                        paddingVertical: 8,
+                        paddingHorizontal: 32,
+                        borderRadius: 12,
+                        justifyContent: 'center'
+                    }}
+                    onPress={() => { navigation.navigate('LoginStackScreen') }}
+                >
+                    <Text style={{
+                        ...FONTS.h1,
+                        fontSize: 22,
+                        textTransform: 'uppercase',
+                        color: '#f2ffff',
+                    }}>Đồng ý</Text>
+                </TouchableOpacity>
+
             </View>
         </View>
     )

@@ -1,6 +1,8 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { LogoIcon } from '../assets/icons';
+import { GoogleSigninButton } from '@react-native-community/google-signin';
+import { FONTS } from '../assets/constants/theme';
 
 const LoginScreen = ({ navigation }) => {
 
@@ -8,41 +10,36 @@ const LoginScreen = ({ navigation }) => {
 
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#62cf38' }}>
+        <View style={{ flex: 1, backgroundColor: '#3fabdb' }}>
             <Text style={{
-                fontSize: 42,
+                ...FONTS.h2,
+                fontSize: 52,
                 color: '#fff',
                 textTransform: 'uppercase',
                 alignSelf: 'center',
-                paddingVertical: 140,
-                fontWeight: 'bold'
-            }}>Đăng nhập</Text>
+                paddingVertical: 140
+            }}>Sign In</Text>
             <View style={{ flex: 1, alignItems: 'center' }}>
                 <LogoIcon height='260' width='260' />
             </View>
             <View style={{ flex: 1 }}>
-                <TouchableOpacity
-                    style={{
-                        padding: 14,
-                        backgroundColor: '#fff',
-                        alignItems: 'center',
-                        marginHorizontal: 20,
-                        borderRadius: 30
-                    }}
+                <GoogleSigninButton
+                    style={{ width: 320, height: 110, alignSelf: 'center' }}
+                    size={GoogleSigninButton.Size.Wide}
+                    color={GoogleSigninButton.Color.Dark}
                     onPress={() => {
                         navigation.navigate('DrawerStackScreen');
-                    }}
-                >
-                    <Text style={{ fontSize: 42, color: 'red' }}>Next</Text>
-                </TouchableOpacity>
+                    }} />
             </View>
 
             <Text style={{
+                ...FONTS.body1,
                 alignSelf: 'center',
                 justifyContent: 'flex-end',
                 fontSize: 18,
-                color: '#fff'
-            }}>Hồ Văn Hậu</Text>
+                color: '#fff',
+                opacity: .5
+            }}>Ngân Hậu</Text>
         </View>
     )
 }

@@ -3,28 +3,7 @@ import { Dimensions } from 'react-native';
 const { height, width } = Dimensions.get('window');
 
 export const COLORS = {
-    islandGreen: '#2BAE66FF',
-    redDark: '#be0000',
-    white: '#FCF6F5FF',
-    black: '#1e1f20',
-    gray: '#6a6a6a',
-    grayScale: '#d8d8d8',
-    blue: '#0682fe',
-    green: '#47b596',
-    focus: '#2BAE66FF',
-    unFocus: '#6a6a6a',
-    prolife: '#c78787',
-    setting: '#87c799',
-    history: '#c7c187',
-    historyBR: 'rgba(199, 193, 135,0.2)',
-    home: '#87c7c6',
-    create: '#3cbfb1',
-    shadow: '#dedede',
-    lightGray: '#d3d3d3',
-    darkGray: '#a9a9a9',
-    backgroundFade: 'rgba(255, 255, 255,0.33)',
-    orangeLight: '#f8a825',
-    orangeDark: '#ee7c2a'
+
 };
 
 export const SIZES = {
@@ -50,14 +29,14 @@ export const SIZES = {
 };
 
 export const FONTS = {
-    h1: { fontFamily: 'Linotte-Heavy', fontSize: SIZES.h1, lineHeight: 36 },
-    h2: { fontFamily: 'Linotte-Bold', fontSize: SIZES.h2, lineHeight: 30 },
-    h3: { fontFamily: 'Linotte-Bold', fontSize: SIZES.h3, lineHeight: 22 },
-    h4: { fontFamily: 'Linotte-Bold', fontSize: SIZES.h4, lineHeight: 22 },
-    body1: { fontFamily: 'Linotte-Regular', fontSize: SIZES.h1, lineHeight: 36 },
-    body2: { fontFamily: 'Linotte-Regular', fontSize: SIZES.h2, lineHeight: 30 },
-    body3: { fontFamily: 'Linotte-Regular', fontSize: SIZES.h3, lineHeight: 22 },
-    body4: { fontFamily: 'Linotte-Regular', fontSize: SIZES.h4, lineHeight: 22 },
+    h1: { fontFamily: 'Judson-Bold', fontSize: SIZES.h1, lineHeight: 36 },
+    h2: { fontFamily: 'ArimaMadurai-Bold', fontSize: SIZES.h2, lineHeight: 30 },
+    h3: { fontFamily: 'Judson-Bold', fontSize: SIZES.h3, lineHeight: 22 },
+    h4: { fontFamily: 'ArimaMadurai-Bold', fontSize: SIZES.h4, lineHeight: 22 },
+    body1: { fontFamily: 'ArimaMadurai-Medium', fontSize: SIZES.h1, lineHeight: 36 },
+    body2: { fontFamily: 'Bebas', fontSize: SIZES.h2, lineHeight: 30 },
+    body3: { fontFamily: 'Judson-Regular', fontSize: SIZES.h3, lineHeight: 22 },
+    body4: { fontFamily: 'Judson-Italic', fontSize: SIZES.h4, lineHeight: 22 },
     button4: {
         fontFamily: 'Linotte-Semi-Bold',
         fontSize: SIZES.h4,

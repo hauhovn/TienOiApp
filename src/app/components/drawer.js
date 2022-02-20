@@ -17,11 +17,14 @@ import {
     LogoutIcon,
     HistoryIcon
 } from '../assets/icons';
+import { FONTS } from '../assets/constants/theme';
 
 export function DrawerContent(props) {
 
 
     const avt = require('../assets/images/avatar.jpg');
+    const name = 'Nguyễn Thị Ngân';
+    const email = 'hauhovn@gmail.com';
 
     return (
         <View style={{ flex: 1 }}>
@@ -33,8 +36,8 @@ export function DrawerContent(props) {
                         style={styles.avatar}
                         source={avt} />
                     <View style={styles.info}>
-                        <Text style={styles.textInfo}>Nguyễn Thị Ngân</Text>
-                        <Text style={{ ...styles.textInfo, fontSize: 14 }}>hauhovn@gmail.com</Text>
+                        <Text style={{ ...FONTS.h4, ...styles.textInfo, maxWidth: '100%' }}>{name}</Text>
+                        <Text style={{ ...FONTS.body4, ...styles.textInfo, fontSize: 14 }}>{email}</Text>
                     </View>
                 </View>
                 {/** List */}
@@ -45,11 +48,13 @@ export function DrawerContent(props) {
                                 <HomeIcon color='#407fbc' />)
                         }}
                         label={'Trang chủ'}
+                        labelStyle={{ ...FONTS.body1, fontSize: 18 }}
                         onPress={() => props.navigation.navigate('HomeStackScreen')}
                     />
                     <DrawerItem
                         icon={() => { return (<AddIcon color='#40bdab' />) }}
                         label={'Thêm giao dịch'}
+                        labelStyle={{ ...FONTS.body1, fontSize: 18 }}
                         onPress={() => props.navigation.navigate('AddStackScreen')}
                     />
                     <DrawerItem
@@ -59,12 +64,14 @@ export function DrawerContent(props) {
                             )
                         }}
                         label={'Lịch sử'}
+                        labelStyle={{ ...FONTS.body1, fontSize: 18 }}
                         onPress={() => props.navigation.navigate('HistoryStackScreen')}
                     />
 
                     <DrawerItem
                         icon={() => { return (<SettingIcon color='#f79459' />) }}
                         label={'Cài đặt'}
+                        labelStyle={{ ...FONTS.body1, fontSize: 18 }}
                         onPress={() => props.navigation.navigate('SettingStackScreen')}
                     />
                 </View>
@@ -76,6 +83,7 @@ export function DrawerContent(props) {
                 <DrawerItem
                     icon={() => { return (<LogoutIcon />) }}
                     label={'Đăng xuất'}
+                    labelStyle={{ ...FONTS.body1, fontSize: 18 }}
                     onPress={() => { props.navigation.closeDrawer(); props.navigation.navigate('LogoutStackScreen', { screen: 'LogoutScreen', params: { isLogout: true } }) }}
                 />
             </View>
@@ -91,9 +99,12 @@ const styles = StyleSheet.create({
     },
     info: {
         alignItems: 'flex-start',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: 150,
+        height: 140
     },
     textInfo: {
+        paddingTop: 12,
         fontSize: 16,
         color: '#000'
     },
