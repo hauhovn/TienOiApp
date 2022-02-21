@@ -15,9 +15,11 @@ import {
     SettingIcon,
     AddIcon,
     LogoutIcon,
-    HistoryIcon
+    HistoryIcon,
+    OptionIcon
 } from '../assets/icons';
-import { FONTS } from '../assets/constants/theme';
+import { FONTS, SIZES } from '../assets/constants/theme';
+import PaperPlaneIcon from "../assets/icons/paper-plane";
 
 export function DrawerContent(props) {
 
@@ -41,7 +43,7 @@ export function DrawerContent(props) {
                     </View>
                 </View>
                 {/** List */}
-                <View style={{ marginTop: 24 }}>
+                <View style={{ marginTop: 0 }}>
                     <DrawerItem
                         icon={() => {
                             return (
@@ -75,7 +77,19 @@ export function DrawerContent(props) {
                         onPress={() => props.navigation.navigate('SettingStackScreen')}
                     />
                 </View>
-                <View style={{ width: '100%', height: 2, backgroundColor: '#a3a3a3' }} />
+                <View style={{ width: '100%', height: .8, backgroundColor: '#018ba4' }} />
+                <DrawerItem
+                    icon={() => { return (<OptionIcon color='#d87dbd' />) }}
+                    label={'Cơ cấu các hũ'}
+                    labelStyle={{ ...FONTS.body1, fontSize: 18 }}
+                    onPress={() => props.navigation.navigate('SettingStackScreen')}
+                />
+                <DrawerItem
+                    icon={() => { return (<PaperPlaneIcon color='#7d7dff' />) }}
+                    label={'Báo cáo thu chi'}
+                    labelStyle={{ ...FONTS.body1, fontSize: 18, width: SIZES.width * .5 }}
+                    onPress={() => props.navigation.navigate('SettingStackScreen')}
+                />
             </DrawerContentScrollView>
 
             {/** Logout box */}

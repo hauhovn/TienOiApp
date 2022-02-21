@@ -7,10 +7,24 @@ import LogoIcon from "./logo";
 import MenuIcon from './menu';
 import PlusIcon from './plus';
 import MinusIcon from "./minus";
-import JarIcon from "./jar";
+import MoneyIcon from './money';
+import ArrowRightIcon from "./arrow-right";
+import OptionIcon from './option';
+import PaperPlane from './paper-plane';
+import CalendarIcon from './calendar';
+import RefreshIcon from './refresh';
+import EditIcon from './edit';
+import TagIcon from './tag';
 
 export {
-    JarIcon,
+    TagIcon,
+    EditIcon,
+    RefreshIcon,
+    CalendarIcon,
+    PaperPlane,
+    OptionIcon,
+    ArrowRightIcon,
+    MoneyIcon,
     MinusIcon,
     PlusIcon,
     HomeIcon,
