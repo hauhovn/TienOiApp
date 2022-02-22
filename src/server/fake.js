@@ -43,41 +43,49 @@ export const jars = [
     },
 ];
 
-export
-    const boxs = [{
-        type: 'Tháng',
-        money: 36100800,
-        add: 8200000,
-        spent: 420.000,
-        pressAdd: () => {
-            console.log('add_thang');
-        },
-        pressSpent: () => {
-            console.log('spent_thang');
-        }
+export const boxs = [{
+    type: 'Tháng',
+    money: 36100800,
+    add: 8200000,
+    spent: 420.000,
+    pressAdd: () => {
+        console.log('add_thang');
     },
-    {
-        type: 'Tuần này',
-        money: 610800,
-        add: 200000,
-        spent: 20000,
-        pressAdd: () => {
-            console.log('add_tuan');
-        },
-        pressSpent: () => {
-            console.log('spent_tuan');
-        }
+    pressSpent: () => {
+        console.log('spent_thang');
+    }
+},
+{
+    type: 'Tuần này',
+    money: 610800,
+    add: 200000,
+    spent: 20000,
+    pressAdd: () => {
+        console.log('add_tuan');
     },
-    {
-        type: 'Hôm nay',
-        money: 100800,
-        add: 20000,
-        spent: 2000,
-        pressAdd: () => {
-            console.log('add_nay');
-        },
-        pressSpent: () => {
-            console.log('spent_nay');
-        }
+    pressSpent: () => {
+        console.log('spent_tuan');
+    }
+},
+{
+    type: 'Hôm nay',
+    money: 100800,
+    add: 20000,
+    spent: 2000,
+    pressAdd: () => {
+        console.log('add_nay');
     },
-    ];
+    pressSpent: () => {
+        console.log('spent_nay');
+    }
+},
+];
+
+export const hashtags = [
+    'lương',
+    'ăn',
+    'xăng',
+    'trọ',
+    'gas',
+    'nước',
+]

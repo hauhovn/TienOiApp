@@ -1,20 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
     Text,
     View,
     TouchableOpacity,
     ToastAndroid,
-    Keyboard,
+    FlatList,
     ScrollView,
-    TextInput
+    TextInput,
+    LogBox
 } from 'react-native';
+LogBox.ignoreAllLogs();
 import { FONTS, SIZES } from '../assets/constants/theme';
 import { formatMoney } from '../utils';
 import CurrencyInput from 'react-native-currency-input';
-import { ArrowRightIcon, CalendarIcon, EditIcon, MoneyIcon, RefreshIcon, TagIcon } from '../assets/icons';
-import { jars } from '../../server/fake';
-
+import { ArrowRightIcon, CalendarIcon, CloseIcon, EditIcon, MoneyIcon, RefreshIcon, TagIcon } from '../assets/icons';
+import { jars, hashtags } from '../../server/fake';
 
 const AddScreen = ({ navigation }) => {
 
@@ -24,8 +25,16 @@ const AddScreen = ({ navigation }) => {
     const [amout, setAmout] = useState(undefined);
     const [subAmout, setSubAmout] = useState(undefined);
     const [note, setNote] = useState('');
+    const [hashtag, setHashTag] = useState('');
+    const [tagsList, setTagsList] = useState([]);
 
-    const ref_input = useRef()
+    const ref_input = useRef();
+    const ref_flatList_selected = useRef();
+
+    useEffect(() => {
+        console.log(tagsList);
+        ref_flatList_selected.current.scrollToEnd();
+    }, [tagsList])
 
 
     function renderCatulator() {
@@ -149,17 +158,16 @@ const AddScreen = ({ navigation }) => {
                 borderBottomColor: '#fff',
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'space-around',
+                justifyContent: 'space-between',
                 paddingVertical: 12
             }}>
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    justifyContent: 'space-around'
                 }}>
-                    <View style={{ marginRight: 12 }}><CalendarIcon color='#859498' width='42' height='42' /></View>
+                    <View style={{ marginHorizontal: 18 }}><CalendarIcon color='#859498' width='42' height='42' /></View>
                     <TouchableOpacity>
-                        <Text style={{ ...FONTS.body2, fontSize: 20, color: '#000' }}>thứ 2, Ngày 21 tháng 2 năm 2022</Text>
+                        <Text style={{ ...FONTS.body2, fontSize: 16, color: '#000' }}>thứ 2, Ngày 21 tháng 2 năm 2022</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{
@@ -168,7 +176,7 @@ const AddScreen = ({ navigation }) => {
                     justifyContent: 'space-around',
                 }}>
                     <View style={{ borderRightWidth: 1, borderColor: '#fff', height: 32, marginRight: 6 }} />
-                    <TouchableOpacity>
+                    <TouchableOpacity style={{ marginRight: 18 }}>
                         <RefreshIcon color='#fff' width='26' height='26' />
                     </TouchableOpacity>
                 </View>
@@ -200,27 +208,122 @@ const AddScreen = ({ navigation }) => {
 
     function renderAddHashtag() {
 
+        const pressTag = (tag) => {
+            if (tagsList.length < 6) {
+
+                tag = tag.toLowerCase();
+                if (tagsList.indexOf(tag.toLowerCase()) > -1)
+                    pressRemoveTag(tag);
+                setTagsList(old => [...old, tag.toLowerCase()])
+            } else {
+                ToastAndroid.showWithGravity('Chỉ có thể thêm tối đa 6 nhãn dán!', ToastAndroid.LONG, ToastAndroid.CENTER);
+            }
+        }
+
+        const pressRemoveTag = (tag) => {
+            tag = tag.toLowerCase();
+            let tmp = tagsList;
+            let nl = removeItem(tmp, tag.toLowerCase());
+            setTagsList([...nl]);
+
+        }
+
+        const checkHashtagInput = (value) => {
+            const char = value.substr(value.length - 1);
+            if (char == ' ') {
+                pressTag(hashtag);
+                setHashTag('');
+            } else { setHashTag(value); }
+        }
+
+        const removeItem = (arr, item) => {
+            var i = arr.indexOf(item); if (i > -1) arr.splice(i, 1); return arr;
+        }
+
+        function renderSelectedTags() {
+            return (<FlatList
+                showsHorizontalScrollIndicator={false}
+                ref={ref_flatList_selected}
+                horizontal={true}
+                data={tagsList}
+                renderItem={({ item }) => renderItemSelectedTag(item)} />)
+        }
+
+        function renderItemSelectedTag(tag) {
+            return <TouchableOpacity
+                onPress={() => pressRemoveTag(tag)}
+                style={{
+                    padding: 6, borderRadius: 12,
+                    paddingHorizontal: 16, alignSelf: 'center',
+                    backgroundColor: '#d14b4b', margin: 10,
+                    maxWidth: SIZES.width * .32,
+                    paddingRight: 12
+                }}
+            >
+                <View style={{ position: 'absolute', right: -5, top: -5, backgroundColor: '#d7f5f1', borderRadius: 20 }}>
+                    <CloseIcon color='#d14b4b' width='20' height='20' /></View>
+                <Text
+                    style={{
+                        ...FONTS.body2, fontSize: 18, color: '#d7f5f1'
+                    }}>#{tag}</Text>
+            </TouchableOpacity>
+        }
+
         return (
-            <View style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingVertical: 8
-            }}>
-                <View style={{ paddingHorizontal: 20 }}><TagIcon color='#859498' width='42' height='42' /></View>
-                <TextInput
-                    placeholder="Thêm nhãn"
-                    placeholderTextColor={'#5555555c'}
-                    multiline={true}
-                    style={{ ...FONTS.body3, fontSize: 20, width: SIZES.width * .7, color: '#000' }}
-                    value={note}
-                    onChangeText={(value) => setNote(value)} />
+            <View>
+                {renderSelectedTags()}
+                {/** Ex hashtags list */}
+                <FlatList
+                    scrollEnabled={true}
+                    showsHorizontalScrollIndicator={false}
+                    nestedScrollEnabled={false}
+                    data={hashtags}
+                    horizontal={true}
+                    keyExtractor={(index) => index + Math.random()}
+                    renderItem={({ item }) => {
+                        return (
+                            <View key={item + Math.random()}>
+                                <TouchableOpacity
+                                    onPress={() => pressTag(item)}
+                                    style={{
+                                        padding: 6, borderRadius: 12,
+                                        paddingHorizontal: 16, alignSelf: 'center',
+                                        backgroundColor: '#7ad2c4', margin: 10,
+                                        maxWidth: SIZES.width * .32
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            ...FONTS.body2, fontSize: 18, color: '#d7f5f1'
+                                        }}>#{item}</Text>
+                                </TouchableOpacity>
+                            </View>)
+                    }}
+
+                />
+                <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingVertical: 8
+                }}>
+                    <View style={{ paddingHorizontal: 20 }}><TagIcon color='#859498' width='42' height='42' /></View>
+                    <TextInput
+                        placeholder="Thêm nhãn"
+                        placeholderTextColor={'#5555555c'}
+                        multiline={true}
+                        style={{ ...FONTS.body3, fontSize: 20, width: SIZES.width * .7, color: '#000' }}
+                        value={hashtag}
+                        onChangeText={(value) => checkHashtagInput(value)} />
+                </View>
             </View>
         );
     }
 
     return (
         <SafeAreaView style={{ backgroundColor: '#fff' }}>
-            <ScrollView style={{ marginBottom: 120 }}>
+            <ScrollView
+                nestedScrollEnabled={false}
+                style={{ marginBottom: 120, flexGrow: 1 }}>
                 <Text style={{
                     ...FONTS.h2,
                     fontSize: 32,

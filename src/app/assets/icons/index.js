@@ -15,8 +15,10 @@ import CalendarIcon from './calendar';
 import RefreshIcon from './refresh';
 import EditIcon from './edit';
 import TagIcon from './tag';
+import CloseIcon from './close';
 
 export {
+    CloseIcon,
     TagIcon,
     EditIcon,
     RefreshIcon,

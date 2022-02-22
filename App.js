@@ -65,6 +65,7 @@ const App = () => {
                     name="HomeStackScreen"
                     component={HomeStackScreen}
                     options={{
+                        tabBarHideOnKeyboard: true,
                         tabBarShowLabel: false,
                         tabBarActiveTintColor: '#0154a4',
                         tabBarIcon: ({ color }) => {
@@ -77,6 +78,7 @@ const App = () => {
                     name="AddStackScreen"
                     component={AddStackScreen}
                     options={{
+                        tabBarHideOnKeyboard: true,
                         tabBarShowLabel: false,
                         tabBarActiveTintColor: '#00a88f',
                         tabBarLabel: 'Thêm',
@@ -89,6 +91,7 @@ const App = () => {
                     name="HistoryStackScreen"
                     component={HistoryStackScreen}
                     options={{
+                        tabBarHideOnKeyboard: true,
                         tabBarShowLabel: false,
                         tabBarLabel: 'Lịch sử',
                         tabBarIcon: ({ focused }) => {
