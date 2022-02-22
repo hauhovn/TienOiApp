@@ -16,8 +16,10 @@ import RefreshIcon from './refresh';
 import EditIcon from './edit';
 import TagIcon from './tag';
 import CloseIcon from './close';
+import SaveIcon from './save';
 
 export {
+    SaveIcon,
     CloseIcon,
     TagIcon,
     EditIcon,

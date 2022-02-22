@@ -14,7 +14,7 @@ LogBox.ignoreAllLogs();
 import { FONTS, SIZES } from '../assets/constants/theme';
 import { formatMoney } from '../utils';
 import CurrencyInput from 'react-native-currency-input';
-import { ArrowRightIcon, CalendarIcon, CloseIcon, EditIcon, MoneyIcon, RefreshIcon, TagIcon } from '../assets/icons';
+import { ArrowRightIcon, CalendarIcon, CloseIcon, EditIcon, MoneyIcon, RefreshIcon, SaveIcon, TagIcon } from '../assets/icons';
 import { jars, hashtags } from '../../server/fake';
 
 const AddScreen = ({ navigation }) => {
@@ -321,18 +321,51 @@ const AddScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ backgroundColor: '#fff' }}>
-            <ScrollView
-                nestedScrollEnabled={false}
-                style={{ marginBottom: 120, flexGrow: 1 }}>
+            <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                paddingBottom: 12,
+                backgroundColor: '#fff',
+                shadowColor: "#00a88f",
+                shadowOffset: {
+                    width: 0,
+                    height: 5,
+                },
+                shadowOpacity: 0.34,
+                shadowRadius: 6.27,
+                elevation: 10,
+            }}>
                 <Text style={{
                     ...FONTS.h2,
                     fontSize: 32,
                     color: '#00a88f',
                     textTransform: 'uppercase',
-                    marginTop: 20,
                     paddingTop: 40,
-                    alignSelf: 'center'
                 }}>Thêm giao dịch</Text>
+                {/** Save button */}
+                <TouchableOpacity
+                    onPress={() => console.log(`Save`)}
+                    style={{
+                        alignSelf: 'flex-end',
+                        flexDirection: 'row', alignItems: 'center',
+                        padding: 12,
+                        borderRadius: 12, backgroundColor: '#40bdab',
+                        shadowColor: "#00a88f",
+                        shadowOffset: {
+                            width: 0,
+                            height: 5,
+                        },
+                        shadowOpacity: 0.34,
+                        shadowRadius: 6.27,
+                        elevation: 10,
+                    }}>
+                    <SaveIcon color='#fff' width='28' height='28' />
+                </TouchableOpacity>
+            </View>
+            <ScrollView
+                nestedScrollEnabled={false}
+                style={{ marginBottom: 120, flexGrow: 1 }}>
 
                 {/** Select bar */}
                 <View style={{
