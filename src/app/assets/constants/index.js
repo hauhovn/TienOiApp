@@ -1,0 +1,3 @@
+const VND = '₫';
+
+export { VND }

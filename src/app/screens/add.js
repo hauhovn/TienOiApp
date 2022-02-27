@@ -1,25 +1,24 @@
 import React, { useState, useRef, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-    Text,
-    View,
-    TouchableOpacity,
-    ToastAndroid,
-    FlatList,
-    ScrollView,
-    TextInput,
-    LogBox
-} from 'react-native';
+import { Text, View, TouchableOpacity, ToastAndroid, FlatList, ScrollView, TextInput, LogBox, StyleSheet } from 'react-native';
 LogBox.ignoreAllLogs();
-import { FONTS, SIZES } from '../assets/constants/theme';
-import { formatMoney } from '../utils';
+import { FONTS, SIZES, STYLES } from '../assets/constants/theme';
 import CurrencyInput from 'react-native-currency-input';
 import { ArrowRightIcon, CalendarIcon, CloseIcon, EditIcon, MoneyIcon, RefreshIcon, SaveIcon, TagIcon } from '../assets/icons';
 import { jars, hashtags } from '../../server/fake';
+import { PopupSlideModal } from '../components';
+import { formatMoney } from "../utils";
+import { VND } from "../assets/constants";
+import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
+import 'moment/locale/vi';
 
 const AddScreen = ({ navigation }) => {
 
-    const [selectedFuntion, setFuntion] = useState(1);
+    const SPENT = 'spent_action', ADD = 'add_action', CHANGE = 'change_action';
+
+    const [selectedAction, setAction] = useState(SPENT);
+    const [selectedJar, setSelectedJar] = useState(jars[0]);
     const [caculator, setCatucator] = useState('=');
     const [isShowCatu, setShowCatu] = useState(false);
     const [amout, setAmout] = useState(undefined);
@@ -27,15 +26,20 @@ const AddScreen = ({ navigation }) => {
     const [note, setNote] = useState('');
     const [hashtag, setHashTag] = useState('');
     const [tagsList, setTagsList] = useState([]);
+    const [isShowPopup, setShowPopup] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [isOpenDate, setOpenDate] = useState(false);
 
     const ref_input = useRef();
     const ref_flatList_selected = useRef();
 
     useEffect(() => {
-        console.log(tagsList);
         ref_flatList_selected.current.scrollToEnd();
     }, [tagsList])
 
+    useEffect(() => {
+        console.log(`Funtion: `, selectedAction);
+    }, [selectedAction])
 
     function renderCatulator() {
 
@@ -125,27 +129,34 @@ const AddScreen = ({ navigation }) => {
     function renderJarPicker(jar) {
 
         return (
-            <TouchableOpacity style={{
-                paddingHorizontal: 20,
-                paddingVertical: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderBottomWidth: .8,
-                borderBottomColor: '#fff',
-            }}>
+            <TouchableOpacity
+                onPress={() => { setShowPopup(!isShowPopup) }}
+                style={{
+                    paddingHorizontal: SIZES.padding,
+                    paddingVertical: SIZES.radius,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    borderBottomWidth: .8,
+                    borderBottomColor: '#fff',
+                }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: jar.color, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{
+                        width: 40, height: 40,
+                        borderRadius: 12,
+                        backgroundColor: jar.color,
+                        alignItems: 'center', justifyContent: 'center', ...STYLES.shadow
+                    }}>
                         <MoneyIcon color='#fff' width='22' height='22' />
                     </View>
                     <Text style={{
                         ...FONTS.h2,
                         fontSize: 18,
-                        color: '#000',
-                        marginLeft: 16
-                    }}>{jar.name}</Text>
+                        color: '#000000a6',
+                        marginLeft: SIZES.radius
+                    }}>{jar.name}  ({formatMoney(jar.value)} {VND})</Text>
                 </View>
-                <ArrowRightIcon color='#3b3b3bd1' />
+                <ArrowRightIcon color='#3b3b3bd1' height='28' width='28' />
             </TouchableOpacity>
         )
     }
@@ -153,34 +164,50 @@ const AddScreen = ({ navigation }) => {
     function renderCalendarPicker() {
 
         return (
-            <View style={{
-                borderBottomWidth: .8,
-                borderBottomColor: '#fff',
+            <TouchableOpacity onPress={() => setOpenDate(!isOpenDate)} style={{
+                paddingHorizontal: SIZES.padding,
+                paddingVertical: SIZES.radius,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                paddingVertical: 12
+                borderBottomWidth: .8,
+                borderBottomColor: '#fff',
             }}>
                 <View style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                 }}>
-                    <View style={{ marginHorizontal: 18 }}><CalendarIcon color='#859498' width='42' height='42' /></View>
-                    <TouchableOpacity>
-                        <Text style={{ ...FONTS.body2, fontSize: 16, color: '#000' }}>thứ 2, Ngày 21 tháng 2 năm 2022</Text>
-                    </TouchableOpacity>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <CalendarIcon color='#000000a6' width='42' height='42' />
+                    </View>
+                    <Text
+                        style={{
+                            ...FONTS.body2, fontSize: 16, color: '#000000a6', marginLeft: SIZES.radius
+                        }}>{moment(date).format('dddd')},   {moment(date).format('LL')}</Text>
+
                 </View>
-                <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-around',
-                }}>
-                    <View style={{ borderRightWidth: 1, borderColor: '#fff', height: 32, marginRight: 6 }} />
-                    <TouchableOpacity style={{ marginRight: 18 }}>
-                        <RefreshIcon color='#fff' width='26' height='26' />
-                    </TouchableOpacity>
-                </View>
-            </View>
+                <TouchableOpacity onPress={() => setDate(new Date())}>
+                    <RefreshIcon color='#3b3b3bd1' height='28' width='28' />
+                </TouchableOpacity>
+                <DatePicker
+                    modal
+                    open={isOpenDate}
+                    date={date}
+                    mode='date'
+                    title="Chọn ngày"
+                    fadeToColor='#fff'
+                    theme="light"
+                    textColor="#fff"
+                    onConfirm={(date) => {
+                        setOpenDate(false)
+                        setDate(date)
+                        console.log(date);
+                    }}
+                    onCancel={() => {
+                        setOpenDate(false)
+                    }}
+                />
+            </TouchableOpacity>
         );
     }
 
@@ -188,18 +215,20 @@ const AddScreen = ({ navigation }) => {
 
         return (
             <View style={{
-                borderBottomWidth: .8,
-                borderBottomColor: '#fff',
+                paddingHorizontal: SIZES.padding,
+                paddingVertical: SIZES.radius,
                 flexDirection: 'row',
                 alignItems: 'center',
-                paddingVertical: 8
+                justifyContent: 'space-between',
+                borderBottomWidth: .8,
+                borderBottomColor: '#fff',
             }}>
-                <View style={{ paddingHorizontal: 20 }}><EditIcon color='#859498' width='42' height='42' /></View>
+                <EditIcon color='#859498' width='42' height='42' />
                 <TextInput
                     placeholder="Mô tả ..."
                     placeholderTextColor={'#5555555c'}
                     multiline={true}
-                    style={{ ...FONTS.body3, fontSize: 20, width: SIZES.width * .7, color: '#000' }}
+                    style={{ ...FONTS.body3, fontSize: 20, width: SIZES.width * .7, color: '#000000a6' }}
                     value={note}
                     onChangeText={(value) => setNote(value)} />
             </View>
@@ -321,21 +350,7 @@ const AddScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ backgroundColor: '#fff' }}>
-            <View style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-around',
-                paddingBottom: 12,
-                backgroundColor: '#fff',
-                shadowColor: "#00a88f",
-                shadowOffset: {
-                    width: 0,
-                    height: 5,
-                },
-                shadowOpacity: 0.34,
-                shadowRadius: 6.27,
-                elevation: 10,
-            }}>
+            <View style={styles.container}>
                 <Text style={{
                     ...FONTS.h2,
                     fontSize: 32,
@@ -345,21 +360,16 @@ const AddScreen = ({ navigation }) => {
                 }}>Thêm giao dịch</Text>
                 {/** Save button */}
                 <TouchableOpacity
-                    onPress={() => console.log(`Save`)}
-                    style={{
-                        alignSelf: 'flex-end',
-                        flexDirection: 'row', alignItems: 'center',
-                        padding: 12,
-                        borderRadius: 12, backgroundColor: '#40bdab',
-                        shadowColor: "#00a88f",
-                        shadowOffset: {
-                            width: 0,
-                            height: 5,
-                        },
-                        shadowOpacity: 0.34,
-                        shadowRadius: 6.27,
-                        elevation: 10,
-                    }}>
+                    onPress={() => {
+                        console.log(`=========Save=========`);
+                        console.log(`Action: `, selectedAction);
+                        console.log(`Amout: `, amout);
+                        console.log(`Jar: `, selectedJar.name);
+                        console.log(`Date: `, date);
+                        console.log(`Note: `, note);
+                        console.log(`Tags: `, tagsList);
+                    }}
+                    style={styles.btnSave}>
                     <SaveIcon color='#fff' width='28' height='28' />
                 </TouchableOpacity>
             </View>
@@ -368,83 +378,52 @@ const AddScreen = ({ navigation }) => {
                 style={{ marginBottom: 120, flexGrow: 1 }}>
 
                 {/** Select bar */}
-                <View style={{
-                    backgroundColor: '#4245445c',
-                    flexDirection: 'row',
-                    marginHorizontal: 12,
-                    marginVertical: 24,
-                    borderRadius: 45,
-                    borderWidth: 1,
-                    borderColor: '#00a88f',
-                    justifyContent: 'space-between'
-                }}>
+                <View style={styles.selectBar}>
                     <TouchableOpacity
-                        onPress={() => { setFuntion(2) }}
+                        onPress={() => { setAction(ADD) }}
                         style={{
                             padding: 4,
-                            backgroundColor: selectedFuntion == 2 ? '#19cf27' : '#00000000',
+                            backgroundColor: selectedAction == ADD ? '#19cf27' : '#00000000',
                             borderRadius: 45
                         }}>
                         <Text style={{
-                            ...FONTS.body2,
-                            color: '#ffffff',
-                            fontSize: 20,
+                            ...styles.optionText,
                             paddingHorizontal: SIZES.width * 0.06
                         }}>Thu nhập</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => { setFuntion(1) }}
+                        onPress={() => { setAction(SPENT) }}
                         style={{
                             padding: 4,
-                            backgroundColor: selectedFuntion == 1 ? '#ec4c5f' : '#00000000',
+                            backgroundColor: selectedAction == SPENT ? '#ec4c5f' : '#00000000',
                             borderRadius: 45
                         }}>
                         <Text style={{
-                            ...FONTS.body2,
-                            color: '#ffffff',
-                            fontSize: 20,
+                            ...styles.optionText,
                             paddingHorizontal: SIZES.width * 0.08
                         }}>Chi tiêu</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => { setFuntion(0) }}
+                        onPress={() => { setAction(CHANGE) }}
                         style={{
                             padding: 4,
-                            backgroundColor: selectedFuntion == 0 ? '#12baba' : '#00000000',
+                            backgroundColor: selectedAction == CHANGE ? '#12baba' : '#00000000',
                             borderRadius: 45
                         }}>
                         <Text style={{
-                            ...FONTS.body2,
-                            color: '#ffffff',
-                            fontSize: 20,
+                            ...styles.optionText,
                             paddingHorizontal: SIZES.width * 0.06
                         }}>Chuyễn hũ</Text>
                     </TouchableOpacity>
 
                 </View>
 
-                <View style={{
-                    padding: 6,
-                    backgroundColor: '#00a88f47',
-                    margin: 6,
-                    borderRadius: 12
-                }}>
-                    <View style={{
-                        flexDirection: 'row',
-                        borderBottomWidth: .8,
-                        borderBottomColor: '#fff',
-                        justifyContent: 'space-between'
-                    }}>
+                <View style={styles.box}>
+                    <View style={styles.amoutBox}>
                         <CurrencyInput
-                            style={{
-                                ...FONTS.body1,
-                                color: '#000',
-                                padding: 10,
-                                marginTop: 12,
-                                width: SIZES.width * .8
-                            }}
+                            style={styles.inputAmout}
                             onFocus={() => setShowCatu(true)}
                             minValue={0}
                             maxValue={999999999999}
@@ -456,16 +435,8 @@ const AddScreen = ({ navigation }) => {
                             placeholder='Ví dụ: 361,008  '
                             placeholderTextColor={'#5555555c'}
                         />
-                        <View style={{
-                            backgroundColor: '#00a88f',
-                            alignItems: 'center', justifyContent: 'center',
-                            height: 44, width: 44, borderRadius: 12
-                        }}>
-                            <Text style={{
-                                ...FONTS.h1,
-                                color: '#fff',
-                                fontSize: 34,
-                            }}>{'đ'}</Text>
+                        <View style={styles.dongIconBox}>
+                            <Text style={{ ...FONTS.h1, color: '#fff', fontSize: 34, }}>{'đ'}</Text>
                         </View>
                     </View>
                     {
@@ -495,18 +466,21 @@ const AddScreen = ({ navigation }) => {
                                 precision={0}
                             />
                         </View>
-
                     }
-
                     {isShowCatu && renderCatulator()}
-                    {renderJarPicker(jars[0])}
+                    {renderJarPicker(selectedJar)}
                     {renderCalendarPicker()}
                     {renderEditForm()}
                     {renderAddHashtag()}
 
+                    <PopupSlideModal
+                        all={false}
+                        visible={isShowPopup}
+                        close={() => setShowPopup(false)}
+                        handle={(jar) => { setSelectedJar(jar); console.log(jar); }}
+                    />
+
                 </View>
-
-
                 <View style={{ padding: 20, backgroundColor: '#00a88f', marginTop: 600 }} />
                 <View style={{ padding: 20, backgroundColor: '#40bdab' }} />
                 <View style={{ padding: 20, backgroundColor: '#7ad2c4' }} />
@@ -517,3 +491,68 @@ const AddScreen = ({ navigation }) => {
 }
 
 export default AddScreen
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        paddingBottom: 12,
+        backgroundColor: '#fff',
+        shadowColor: "#00a88f",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        elevation: 10,
+    },
+    optionText: {
+        ...FONTS.body2,
+        color: '#ffffff',
+        fontSize: 20,
+    },
+    selectBar: {
+        backgroundColor: '#4245445c',
+        flexDirection: 'row',
+        marginHorizontal: 12,
+        marginVertical: 24,
+        borderRadius: 45,
+        borderWidth: 1,
+        borderColor: '#00a88f',
+        justifyContent: 'space-between'
+    },
+    dongIconBox: {
+        backgroundColor: '#00a88f',
+        alignItems: 'center', justifyContent: 'center',
+        height: 44, width: 44, borderRadius: 12
+    },
+    inputAmout: {
+        ...FONTS.body1,
+        color: '#000',
+        padding: 10,
+        marginTop: 12,
+        width: SIZES.width * .8
+    },
+    amoutBox: {
+        flexDirection: 'row',
+        borderBottomWidth: .8,
+        borderBottomColor: '#fff',
+        justifyContent: 'space-between',
+        marginTop: SIZES.radius
+    },
+    box: {
+        padding: 6,
+        backgroundColor: '#00a88f47',
+        margin: 6,
+        borderRadius: 12
+    },
+    btnSave: {
+        alignSelf: 'flex-end',
+        flexDirection: 'row', alignItems: 'center',
+        padding: 12,
+        borderRadius: 12, backgroundColor: '#ffc20f',
+        ...STYLES.shadow
+    },
+
+})

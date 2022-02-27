@@ -117,7 +117,7 @@ const HomeScreen = ({ navigation }) => {
                         value: jar.value,
                         total: jar.total,
                         height: 6,
-                        width: SIZES.width - 110
+                        width: SIZES.width - (110 + SIZES.padding + SIZES.radius)
                     })}
                 </View>
                 <View style={{ marginRight: 14 }}>
@@ -160,7 +160,7 @@ const HomeScreen = ({ navigation }) => {
             <ScrollView style={{ flex: 1, marginBottom: 120 }}>
                 {/** Menu button */}
                 <TouchableOpacity
-                    style={{ padding: 20 }}
+                    style={{ padding: SIZES.radius }}
                     onPress={() => navigation.openDrawer()}
                 >
                     <MenuIcon />
@@ -170,7 +170,7 @@ const HomeScreen = ({ navigation }) => {
                 <ScrollView
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
-                    style={{ flex: 1, marginLeft: 10, paddingBottom: 12 }}>
+                    style={{ flex: 1, marginLeft: SIZES.radius, paddingBottom: 12 }}>
                     {
                         boxs.map((box) => {
                             return renderMoneyBox({
@@ -189,11 +189,11 @@ const HomeScreen = ({ navigation }) => {
                     }
                 </ScrollView>
 
-                <View style={{ backgroundColor: '#0154a4a3', height: .6, margin: 20 }} />
+                <View style={{ backgroundColor: '#0154a4a3', height: .6, margin: SIZES.padding }} />
 
                 {/** Jars list */}
-                <Text style={{ ...FONTS.body2, fontSize: 32, color: '#7d7d7d', padding: 10 }}>Danh sách</Text>
-                <View >
+                <Text style={{ ...FONTS.body2, fontSize: 32, color: '#7d7d7d', padding: SIZES.padding, paddingTop: 0 }}>Danh sách</Text>
+                <View style={{ marginHorizontal: SIZES.padding }}>
                     {
                         jars.map((jar) => {
                             return (

@@ -17,8 +17,10 @@ import EditIcon from './edit';
 import TagIcon from './tag';
 import CloseIcon from './close';
 import SaveIcon from './save';
+import CheckmarkIcon from './checkmark';
 
 export {
+    CheckmarkIcon,
     SaveIcon,
     CloseIcon,
     TagIcon,

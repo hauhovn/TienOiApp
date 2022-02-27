@@ -50,14 +50,14 @@ export const STYLES = {
         marginBottom: SIZES.h2 + 73
     },
     shadow: {
-        shadowColor: '#888',
+        shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 10,
+            height: 6,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.5,
-        elevation: 5,
+        shadowOpacity: 0.39,
+        shadowRadius: 8.30,
+        elevation: 10,
     },
     box: {
         backgroundColor: COLORS.white,
