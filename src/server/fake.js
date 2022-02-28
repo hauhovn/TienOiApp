@@ -4,42 +4,42 @@ export const jars = [
         name: 'Thiết yếu',
         color: '#d13667',
         total: 2000000,
-        value: 1207000
+        amount: 1207000
     },
     {
         id: 'jar_2',
         name: 'Giáo dục',
         color: '#0b78e3',
         total: 500000,
-        value: 400000
+        amount: 400000
     },
     {
         id: 'jar_3',
         name: 'Tiết kiệm',
         color: '#e6a63c',
         total: 1000000,
-        value: 700000
+        amount: 700000
     },
     {
         id: 'jar_4',
         name: 'Hưởng thụ',
         color: '#8d4de8',
         total: 3000000,
-        value: 200000
+        amount: 200000
     },
     {
         id: 'jar_5',
         name: 'Đầu tư',
         color: '#7ed321',
         total: 500000,
-        value: 500000
+        amount: 500000
     },
     {
         id: 'jar_6',
         name: 'Thiện tâm',
         color: '#fd3e8b',
         total: 100000,
-        value: 70000
+        amount: 70000
     },
 ];
 

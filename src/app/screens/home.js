@@ -111,10 +111,10 @@ const HomeScreen = ({ navigation }) => {
                             padding: 6,
                             color: '#636363'
                         }}
-                        >{formatMoney(jar.value)} ₫</Text>
+                        >{formatMoney(jar.amount)} ₫</Text>
                     </View>
                     {renderProgressChart({
-                        value: jar.value,
+                        value: jar.amount,
                         total: jar.total,
                         height: 6,
                         width: SIZES.width - (110 + SIZES.padding + SIZES.radius)

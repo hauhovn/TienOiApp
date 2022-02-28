@@ -20,13 +20,18 @@ const PopupSlideModal = ({ visible, close, handle, all }) => {
     const addAllJar = () => {
         let sum = 0;
         jars.forEach(jar => {
-            sum += jar.value;
+            sum += jar.amount;
         });
-        return [{ id: 0, name: ALL, value: sum, color: '#5906dfa6' }, ...jars];
+        const all = { id: 0, name: ALL, amount: sum, color: '#5906dfa6' };
+        setSelectJar(all);
+        selectedJar != all && handle(all);
+        return [all, ...jars];
     }
 
     var newjars = jars;
-    if (all) newjars = addAllJar();
+    if (all) {
+        newjars = addAllJar();
+    }
 
     return (
         <Modal
@@ -96,7 +101,7 @@ const PopupSlideModal = ({ visible, close, handle, all }) => {
                                     <Text style={{ ...FONTS.h1, fontSize: jar.name == ALL ? 25 : 18, lineHeight: jar.name == ALL ? 27 : 20, color: jar.name == ALL ? '#000' : '#1e1e1e9c' }}>{jar.name}</Text>
                                     <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                                         {jar.name != ALL && <Text style={{ ...FONTS.body3, color: '#1e1e1e59' }}>{AMOUT}</Text>}
-                                        <Text style={{ ...FONTS.h4, color: jar.name == ALL ? '#000' : '#1e1e1ec2', fontSize: jar.name == ALL ? 20 : 16, lineHeight: jar.name == ALL ? 27 : 25 }}>{formatMoney(jar.value)} {VND}</Text>
+                                        <Text style={{ ...FONTS.h4, color: jar.name == ALL ? '#000' : '#1e1e1ec2', fontSize: jar.name == ALL ? 20 : 16, lineHeight: jar.name == ALL ? 27 : 25 }}>{formatMoney(jar.amount)} {VND}</Text>
                                     </View>
                                 </View>
                             </View>)
