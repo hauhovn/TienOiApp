@@ -6,7 +6,7 @@ import { CheckmarkIcon, MoneyIcon } from '../assets/icons'
 import { formatMoney } from '../utils';
 import { VND } from '../assets/constants';
 
-const PopupSlideModal = ({ visible, close, handle, all }, ref) => {
+const PopupSlideModal = ({ visible, close, handle, bgColor, btnColor, btnTextColor }, ref) => {
 
     const modalHeight = SIZES.height * .5;
     const CHOISE_JAR = 'Chọn loại túi';
@@ -54,7 +54,7 @@ const PopupSlideModal = ({ visible, close, handle, all }, ref) => {
                 width: SIZES.width,
                 position: 'absolute',
                 bottom: 0,
-                backgroundColor: '#7ad2c4',
+                backgroundColor: bgColor ? bgColor : '#7ad2c4',
                 borderTopLeftRadius: SIZES.radius,
                 borderTopRightRadius: SIZES.radius,
                 ...STYLES.shadow
@@ -116,7 +116,7 @@ const PopupSlideModal = ({ visible, close, handle, all }, ref) => {
                             close(true);
                         }}
                         style={{
-                            backgroundColor: '#008571',
+                            backgroundColor: btnColor ? btnColor : '#008571',
                             borderRadius: SIZES.radius,
                             alignItems: 'center',
                             marginVertical: SIZES.radius / 2,
@@ -124,7 +124,7 @@ const PopupSlideModal = ({ visible, close, handle, all }, ref) => {
                         }}>
                         <Text style={{
                             paddingVertical: SIZES.radius / 2,
-                            ...FONTS.body2, color: '#f1f1f1'
+                            ...FONTS.body2, color: btnTextColor ? btnTextColor : '#f1f1f1'
                         }}>{COMFORM}</Text>
                     </TouchableOpacity>
                 </View>
