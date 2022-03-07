@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useImperativeHandle, forwardRef, useState } from 'react'
+import React, { useImperativeHandle, forwardRef, useState, useRef } from 'react'
 import { PopupSlideModal } from '.';
 import { jars } from '../../server/fake';
 import { ArrowRightIcon, MoneyIcon } from '../assets/icons';
@@ -13,18 +13,45 @@ const AddJar = (props, ref) => {
 
     const [selectedJar, setSelectedJar] = useState(JARS[0]);
     const [isShowPopup, setShowPopup] = useState(false);
-    const [isShowAllSelectedJar, setAllSelectedJar] = useState(false);
+
+    const ref_popup = useRef();
 
     useImperativeHandle(ref, () => ({
 
         close() { setShowPopup(false) },
-        report() { props.res(selectedJar) }
+        report() { props.res(selectedJar) },
+        reset() {
+            JARS.length > 6 ? setSelectedJar(JARS[1]) : setSelectedJar([JARS[0]]);
+            ref_popup.current.reset();
+        },
+        setIndex(index) { try { setSelectedJar(JARS[index]) } catch (err) { this.reset() } },
+        showSumJars() { console.log(`SUM: `, sumJars(JARS)); setSelectedJar(sumJars(JARS)) },
+
 
     }))
 
+    if (JARS.length < 7 && props?.isShowAll) {
+        setSelectedJar(sumJars());
+    }
+
+    const sumJars = (_jars) => {
+        if (_jars.length > 6) return _jars;
+        let sum = 0;
+        _jars.forEach(e => {
+            sum += e.amount;
+        });
+
+        return { id: '0', name: 'Tất cả', amount: sum, color: '#5906dfa6' };
+    }
+
     return (
         <TouchableOpacity
-            onPress={() => { setShowPopup(!isShowPopup) }}
+            onPress={() => {
+
+                if (selectedJar.id == sumJars(JARS).id) {
+                    ref_popup.current.showAll();
+                }; setShowPopup(!isShowPopup);
+            }}
             style={{
                 paddingHorizontal: SIZES.padding,
                 paddingVertical: SIZES.radius,
@@ -53,7 +80,8 @@ const AddJar = (props, ref) => {
             <ArrowRightIcon color='#3b3b3bd1' height='28' width='28' />
 
             <PopupSlideModal
-                all={isShowAllSelectedJar}
+                ref={ref_popup}
+                all={true}
                 visible={isShowPopup}
                 close={() => setShowPopup(false)}
                 handle={(jar) => { setSelectedJar(jar); console.log(jar); }}

@@ -17,19 +17,25 @@ const AddScreen = ({ navigation }) => {
     const ref_tags = useRef();
     const ref_note = useRef();
     const ref_jar = useRef();
+    const ref_jar_receive = useRef();
     const ref_date = useRef();
 
     useEffect(() => {
         console.log(`Funtion: `, selectedAction);
         if (selectedAction == ADD) {
             clearRef();
-        }
-        if (selectedAction == SPENT) {
-            clearRef();
-        }
-        if (selectedAction == CHANGE) {
-            clearRef();
-        }
+            ref_jar.current.showSumJars();
+            console.log(ADD);
+        } else
+            if (selectedAction == SPENT) {
+                clearRef();
+                ref_jar.current.setIndex(0);
+            } else
+                if (selectedAction == CHANGE) {
+                    clearRef();
+                    ref_jar.current.setIndex(0);
+                    ref_jar_receive.current.setIndex(2);
+                }
     }, [selectedAction])
 
 
@@ -38,6 +44,7 @@ const AddScreen = ({ navigation }) => {
         ref_note.current.clear();
         ref_amount.current.clear();
         ref_jar.current.close();
+        ref_jar.current.reset();
         ref_date.current.reset();
     }
 
@@ -134,7 +141,7 @@ const AddScreen = ({ navigation }) => {
 
                     {selectedAction == CHANGE &&
                         <AddJar
-                            ref={ref_jar}
+                            ref={ref_jar_receive}
                             res={(data) => {
                                 let old = Data;
                                 old.toJar = data;

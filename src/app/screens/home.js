@@ -192,7 +192,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={{ backgroundColor: '#0154a4a3', height: .6, margin: SIZES.padding }} />
 
                 {/** Jars list */}
-                <Text style={{ ...FONTS.body2, fontSize: 32, color: '#7d7d7d', padding: SIZES.padding, paddingTop: 0 }}>Danh sách</Text>
+                <Text style={{ ...FONTS.body2, fontSize: 32, color: '#7d7d7d', padding: SIZES.padding, paddingTop: 0, lineHeight: 35 }}>Danh sách</Text>
                 <View style={{ marginHorizontal: SIZES.padding }}>
                     {
                         jars.map((jar) => {

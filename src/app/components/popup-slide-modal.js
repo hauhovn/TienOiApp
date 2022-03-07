@@ -1,12 +1,12 @@
 import { View, Text, Modal, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useImperativeHandle, forwardRef } from 'react'
 import { FONTS, SIZES, STYLES } from '../assets/constants/theme'
 import { jars } from '../../server/fake'
 import { CheckmarkIcon, MoneyIcon } from '../assets/icons'
 import { formatMoney } from '../utils';
 import { VND } from '../assets/constants';
 
-const PopupSlideModal = ({ visible, close, handle, all }) => {
+const PopupSlideModal = ({ visible, close, handle, all }, ref) => {
 
     const modalHeight = SIZES.height * .5;
     const CHOISE_JAR = 'Chọn loại túi';
@@ -14,8 +14,15 @@ const PopupSlideModal = ({ visible, close, handle, all }) => {
     const AMOUT = 'Số dư khả dụng';
     const COMFORM = 'Xác nhận';
     const ALL = 'Tất cả';
+    const JARS = jars;
 
+    const [jarList, setJarList] = useState(JARS);
     const [selectedJar, setSelectJar] = useState(jars[0]);
+
+    useImperativeHandle(ref, () => ({
+        reset() { setJarList(JARS); setSelectJar(jarList[0]); console.log(`popup reset`); },
+        showAll() { addAllJar(); setJarList(addAllJar()) }
+    }));
 
     const addAllJar = () => {
         let sum = 0;
@@ -28,10 +35,6 @@ const PopupSlideModal = ({ visible, close, handle, all }) => {
         return [all, ...jars];
     }
 
-    var newjars = jars;
-    if (all) {
-        newjars = addAllJar();
-    }
 
     return (
         <Modal
@@ -72,7 +75,7 @@ const PopupSlideModal = ({ visible, close, handle, all }) => {
                     }}>{DES}</Text>
 
                     {/** jars list */}
-                    {newjars.map((jar) => {
+                    {jarList.map((jar) => {
                         return (
                             <View key={jar.id} style={{ flexDirection: 'row', marginBottom: SIZES.radius / 2, alignItems: 'center' }}>
                                 <TouchableOpacity
@@ -130,4 +133,4 @@ const PopupSlideModal = ({ visible, close, handle, all }) => {
     )
 }
 
-export default PopupSlideModal
+export default forwardRef(PopupSlideModal)
